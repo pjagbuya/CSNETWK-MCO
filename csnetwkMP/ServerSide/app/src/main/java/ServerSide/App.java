@@ -1,79 +1,116 @@
-package ServerSide;
+package app.src.main.java.ServerSide;
+
 import java.net.*;
 import java.io.*;
-import java.util.*;
+import java.util.*; 
+import app.src.main.java.ServerSide.UnivNodes.*;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.*;
 
 
-public class Server{
+public class App {
     final static String[] CMDS = {"/dir", "/?", "/add"};
     final static String SERVER_FILE_PATH = "server_files";
     final static String SERVER_IP = "127.0.0.1";
+    public String getGreeting() {
+        return "Hello World!";
+    }
+
+    public static void start(Stage primaryStage) 
+    {
+        
+        Stage window = primaryStage;
+        ServerView serverView = new ServerView(window);
+
+
+
+
+        
+
+        
+    }
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        Server server = new Server();
-
-
-        // Storing memorizable stuff
-        ArrayList<String> aliases = new ArrayList<>();
-        ArrayList<Integer> serverSocketsID = new ArrayList<>();         // List of users endpoints that are in the server
-        ArrayList<SocketHandler> socketHandlers = new ArrayList<>();    // Socket object per user that enters, containing user names
+        System.out.println(new App().getGreeting());
+        // Stage win = new Stage();
+        // start(win);
 
 
-        // User input for chat interaction
-        String userInput;
+        // Scanner sc = new Scanner(System.in);
 
-        String serverIP = "127.0.0.1";
-        System.out.println("Server is now active at localhost ("+serverIP+").");
-        System.out.println("Commands for server application is \"/dir\" and \"/add\", you can quit with \"/x\"");
-        System.out.println("Type \"/?\" if you wanna know more in commands and definitions");
+        // Server server = new Server();
 
-        boolean flag = true;
-        while (flag)
-        {
 
-            System.out.print("Input a command from the listed above: ");
-            userInput = sc.nextLine();
+        // // Storing memorizable stuff
+        // ArrayList<String> aliases = new ArrayList<>();
+        // ArrayList<Integer> serverSocketsID = new ArrayList<>();         // List of users endpoints that are in the server
+        // ArrayList<SocketHandler> socketHandlers = new ArrayList<>();    // Socket object per user that enters, containing user names
 
-            // User input processing
-            switch (userInput.toLowerCase()) {
-                case "/dir":
-                    server.showDirectory();
-                    break;
-                case "/add":
 
-                    server.addNewSocket(sc, serverSocketsID, socketHandlers);
-                    break;
-                case "/deleteall":
-                    serverSocketsID.clear();
-                    socketHandlers.clear();
-                    break;
-                case "/?":
-                    server.showServerHelp();
-                    break;
-                default:
-                    System.out.println("Invalid command. Please use /dir, /add, /deleteall, or /?");
-                    break;
-            }
+        // // User input for chat interaction
+        // String userInput;
+
+        // String serverIP = "127.0.0.1";
+        // System.out.println("Server is now active at localhost ("+serverIP+").");
+        // System.out.println("Commands for server application is \"/dir\" and \"/add\", you can quit with \"/x\"");
+        // System.out.println("Type \"/?\" if you wanna know more in commands and definitions");
+
+        // boolean flag = true;
+        // while (flag)
+        // {
+
+        //     System.out.print("Input a command from the listed above: ");
+        //     userInput = sc.nextLine();
+
+        //     // User input processing
+        //     switch (userInput.toLowerCase()) {
+        //         case "/dir":
+        //             server.showDirectory();
+        //             break;
+        //         case "/add":
+
+        //             server.addNewSocket(sc, serverSocketsID, socketHandlers);
+        //             break;
+        //         case "/deleteall":
+        //             serverSocketsID.clear();
+        //             socketHandlers.clear();
+        //             break;
+        //         case "/?":
+        //             server.showServerHelp();
+        //             break;
+        //         default:
+        //             System.out.println("Invalid command. Please use /dir, /add, /deleteall, or /?");
+        //             break;
+        //     }
 
 
 
 
 
             
-        }
+        // }
 
 
-        sc.close();
+        // sc.close();
 
 
 
        
     }
+    private void closeProgram(Stage window)
+    {   ConfirmBox boxMessage = new ConfirmBox();
+        boolean answer = boxMessage.display("Warning", "Are you sure you want to exit?");
+
+
+        if(answer)
+            window.close();
+    }
+
     private void addSocketToDB(int sockNum, ArrayList<Integer> serverSocketsID, ArrayList<SocketHandler> socketHandlers){
 
         String resp;
@@ -148,6 +185,10 @@ public class Server{
         System.out.println("/x - exits current prompt");
 
     }
+	
+    
+    
+
 
     // private SocketHandler addSocketHandler(){
     //     SocketHandler sh = new SocketHandler()
