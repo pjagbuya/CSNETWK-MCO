@@ -10,10 +10,13 @@ import java.nio.file.Paths;
 import java.io.*;
 
 public class SocketHandler implements AutoCloseable{
+    final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
     private boolean isAvailable = true;
     public static ArrayList<String> aliases;
     public static ServerSocket serverSocket;
     private Socket socket;
+    private String curDir;
+    private File entireProjDir;
     private int socketID;
     private ServerView serverView;
     @Override
@@ -31,6 +34,9 @@ public class SocketHandler implements AutoCloseable{
         this.serverView = serverView;
         SocketHandler.aliases = new ArrayList<>();
         this.isAvailable = false;
+        this.curDir = showDirectory();
+        this.entireProjDir = new File(".");
+        this.serverView.updateDirectory(showDirectory());
 
     }
 
@@ -89,11 +95,43 @@ public class SocketHandler implements AutoCloseable{
 
     }
     private String processClientRequest(Socket clientSocket) throws IOException {
-        // ... Replace with your actual request processing logic
+
         return "Example message from client";
     }
+
+    private String showDirectory(){
+
+        URI directoryUri = Paths.get(SERVER_FILE_PATH).toUri();
+        File directory = new File(directoryUri);
+        StringBuilder directoryListing = new StringBuilder("");
+
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    directoryListing.append(file.getName()).append("\n");
+                }
+            } else {
+                directoryListing.append(Paint.paintTextRed("ERROR: Failed to list contents\n"));
+            }
+        } else {
+            directoryListing.append(Paint.paintTextRed("ERROR: Directory not found\n"));
+        }
+
+        String listingString = directoryListing.toString();
+        System.out.println("Directory currently has: ");
+        System.out.println(listingString);
+        return listingString;
+    }
+
     private void updateServerUI(int socNum, String message) {
-        SwingUtilities.invokeLater(() -> serverView.updateServerMessage(socNum, message));
+
+
+        SwingUtilities.invokeLater(() -> {
+            this.serverView.updateServerMessage(socNum, message);
+
+        });
+
     }
     private void validateStore(){
 

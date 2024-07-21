@@ -16,6 +16,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URI;
+import java.nio.file.Paths;
+
 
 public class ServerView{
 
@@ -30,6 +34,9 @@ public class ServerView{
     private static final MenuButton BTN_DEL = new MenuButton("Close Sockets");
     private static final MenuButton BTN_HELP = new MenuButton("?");
 
+    private static final MenuButton BTN_REF = new MenuButton("Refresh");
+    final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
+
     private final Font H1_FONT = new Font("Courier New", 32);
     private final Font H2_FONT = new Font("Courier New", 24);
     private final Font NORM_FONT = new Font("Courier New", 16);
@@ -43,6 +50,8 @@ public class ServerView{
 
     private TextFlow serverStatTextFlow;
 
+    private VBox serverStatusPaneWithDir;
+
     public ServerView(Stage parentWin)
     {
         this.parentWin = parentWin;
@@ -55,7 +64,8 @@ public class ServerView{
         this.dirContentSPTexts = new VBox();
         this.chatContentTexts = new VBox();
 
-        VBox serverStatusPaneWithDir = new VBox();
+        this.serverStatusPaneWithDir = new VBox();
+
         VBox LabelsAndInputs = new VBox(20);
 
         HBox btnSection = new HBox(20);
@@ -63,7 +73,7 @@ public class ServerView{
 
 
         btnSection.setAlignment(Pos.BOTTOM_CENTER);
-        btnSection.getChildren().addAll(BTN_ADD, BTN_DEL, BTN_HELP);
+        btnSection.getChildren().addAll(BTN_ADD, BTN_DEL, BTN_REF, BTN_HELP);
 
 
         Label chatTitleLabel = new Label("Server Chat");
@@ -101,16 +111,17 @@ public class ServerView{
 
 
         serverStatusPaneWithDir.getChildren().addAll(serverStatusPane, serverDirLabel, dirContentSP);
-        serverStatusPaneWithDir.setAlignment(Pos.CENTER);
+        serverStatusPaneWithDir.setAlignment(Pos.TOP_CENTER);
 
         chatContent.setContent(chatContentTexts);
         dirContentSP.setContent(dirContentSPTexts);
+        this.dirContentSPTexts.setMinHeight(400);
 
 
 
         this.bgPane.setCenter(LabelsAndInputs);
         this.bgPane.setLeft(this.chatVB);
-        this.bgPane.setRight(serverStatusPane);
+        this.bgPane.setRight(serverStatusPaneWithDir);
 
         this.bgPane.setBottom(btnSection);
         this.bgPane.setStyle("-fx-base: " + BG_COLOR+ ";");
@@ -130,6 +141,17 @@ public class ServerView{
             ServerController.disconnectSocket();
         });
 
+        BTN_REF.setOnAction(e->{
+            updateDirectory(showDirectory());
+        });
+
+        BTN_HELP.setOnAction(e->{
+            String help_options = "'Add sockets' - adds the socket number you specify in. Reclicking option will kill previous socket \n" +
+                                  "'Close sockets' - close all current sockets \n" +
+                                  "'Refresh' - refreshes the directory \n"     ;
+            AlertBoxRep alertBoxRep = new AlertBoxRep("HELP Options",help_options);
+        });
+
 
     }
 
@@ -142,13 +164,47 @@ public class ServerView{
         
     }
 
+    public void updateDirectory(String msg){
+
+        this.dirContentSPTexts.getChildren().clear();
+        System.out.println(msg);
+        Label text = new Label(msg);
+        text.setFont(H2_FONT);
+        this.dirContentSPTexts.getChildren().add(text);
+    }
+    private String showDirectory(){
+
+        URI directoryUri = Paths.get(SERVER_FILE_PATH).toUri();
+        File directory = new File(directoryUri);
+        StringBuilder directoryListing = new StringBuilder("");
+
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    directoryListing.append(file.getName()).append("\n");
+                }
+            } else {
+                directoryListing.append(Paint.paintTextRed("ERROR: Failed to list contents\n"));
+            }
+        } else {
+            directoryListing.append(Paint.paintTextRed("ERROR: Directory not found\n"));
+        }
+
+        String listingString = directoryListing.toString();
+        System.out.println("Directory currently has: ");
+        System.out.println(listingString);
+        return listingString;
+    }
     public void setServerActive(int socketNum){
+        System.out.println("Updating serveer message");
         this.serverStatTextFlow.getChildren().clear();
         Text serverStatusText = new Text("Server "+ IP_LOCAL + ":" + socketNum +" is active and listening for files.");
         serverStatusText.setFont(H2_FONT);
         this.serverStatTextFlow.getChildren().add(serverStatusText);
     }
     public void setServerInactive(){
+
         this.serverStatTextFlow.getChildren().clear();
         Text serverStatusText = new Text("Server "+ IP_LOCAL + " is now inactive.");
         serverStatusText.setFont(H2_FONT);
@@ -161,6 +217,7 @@ public class ServerView{
     }
 
     public void updateServerMessage(int sockNum, String msg){
+//        updateDirectory(showDirectory());
         setServerActive(sockNum);
     }
 

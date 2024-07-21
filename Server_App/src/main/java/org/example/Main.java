@@ -109,10 +109,10 @@ public class Main extends Application {
                     directoryListing.append(file.getName()).append("\n");
                 }
             } else {
-                directoryListing.append(Paint.paintTextOrange("Failed to list contents\n"));
+                directoryListing.append(Paint.paintTextRed("Failed to list contents\n"));
             }
         } else {
-            directoryListing.append(Paint.paintTextOrange("Directory not found\n"));
+            directoryListing.append(Paint.paintTextRed("Directory not found\n"));
         }
 
         String listingString = directoryListing.toString();

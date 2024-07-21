@@ -1,0 +1,17 @@
+
+.conreg-button{
+-fx-border-style: "ridge"; -fx-background-color: #73BBA3; -fx-border-color: #F6FB7A; -fx-border-width: 3px; -fx-border-radius: 3px;
+
+}
+.conreg-button:hover {
+     -fx-border-style: "ridge"; -fx-border-color: #F6FB7A; -fx-border-width: 3px; -fx-border-radius: 3px;
+    -fx-background-color: #40534C;
+}
+.popup-button{
+    -fx-background-color: #433D8B; -fx-border-color: #C8ACD6; -fx-border-width: 3px; -fx-border-radius: 4px;
+}
+
+.popup-button:hover{
+    -fx-border-color: #C8ACD6; -fx-border-width: 3px; -fx-border-radius: 4px;
+    -fx-background-color: #40534C;
+}

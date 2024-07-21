@@ -27,7 +27,7 @@ public class AlertBox {
         Stage window = new Stage();
         
 
-        String colorBg = "#071952";
+        String colorBg = "black";
         Font standardBoldLabel = Font.font("Arial", FontWeight.BOLD, size);
         window.initModality(Modality.APPLICATION_MODAL); // forces user to deal with this Alertbox
         window.setTitle(title);
@@ -39,7 +39,10 @@ public class AlertBox {
         label.setStyle("-fx-text-fill: #FFA500;");
         
         Button closeButton = new Button("Close");
+        closeButton.setMinWidth(100);
+        closeButton.setMinHeight(50);
         closeButton.setOnAction(e->window.close());
+
 
         VBox layout = new VBox(40);
         layout.getChildren().addAll(label, closeButton);

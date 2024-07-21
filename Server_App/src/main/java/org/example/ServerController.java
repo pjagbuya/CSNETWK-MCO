@@ -41,7 +41,7 @@ public class ServerController {
             t.start();
 
         }catch (NumberFormatException e){
-            ServerController.serverView.showErrorBox("Inputted the a non-digit as socket number");
+            ServerController.serverView.showErrorBox("Inputted a non-digit as socket number");
 
         }
 

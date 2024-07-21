@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #B4E380; -fx-border-color: #2E236C; -fx-border-width: 10px;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client_fxml.ClientConRegMenuController">
+   <children>
+      <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="helpBtn" mnemonicParsing="false" onAction="#setHelpBtn" styleClass="buttonConReg" stylesheets="@css/btn_styles.css" text="?" textFill="#f6fb7a">
+               <styleClass>
+                  <String fx:value="conreg-button" />
+               </styleClass>
+               <font>
+                  <Font name="Courier New" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="serverStatusTxt" alignment="CENTER" text="Server Status is Idle..">
+               <font>
+                  <Font name="Courier New" size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label style="-fx-font-weight: bold;" text="Server IP" />
+            <TextField fx:id="serverField" promptText="Ex: 127.0.0.1">
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label style="-fx-font-weight: bold;" text="Server Port" />
+            <TextField fx:id="portField" promptText="Ex: 24">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="connectBtn" mnemonicParsing="false" onAction="#onConnectButtonClick" styleClass="buttonConReg" stylesheets="@css/btn_styles.css" text="Connect" textFill="#f6fb7a">
+               <styleClass>
+                  <String fx:value="conreg-button" />
+               </styleClass>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="disconnectBtn" mnemonicParsing="false" styleClass="buttonConReg" stylesheets="@css/btn_styles.css" text="Disconnect" textFill="#f6fb7a">
+               <styleClass>
+                  <String fx:value="conreg-button" />
+               </styleClass>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <TextField fx:id="userField" promptText="Enter username" />
+            <Button fx:id="registerBtn" mnemonicParsing="false" onAction="#onRegisterBtnClick" stylesheets="@css/btn_styles.css" text="Register" textFill="#f6fb7a">
+               <styleClass>
+                  <String fx:value="conreg-button" />
+               </styleClass>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <stylesheets>
+      <String fx:value="@css/btn_styles.css" />
+   </stylesheets>
+</VBox>
