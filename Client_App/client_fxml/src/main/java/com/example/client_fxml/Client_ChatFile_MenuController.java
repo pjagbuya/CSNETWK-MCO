@@ -85,7 +85,60 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
     public void setChatFileMenu(Scene chatFileMenu) {
         this.chatFileMenu = chatFileMenu;
     }
+    @FXML
+    protected void switchGetFileMenu() throws IOException {
+        this.setChatFileMenu(this.stage.getScene());
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-getFile.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 800);
+        ClientGetStoreFileController controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        controller.setChatFileMenu(this.chatFileMenu);
+        controller.setAlias(this.alias);
+        controller.setServerStatusTxt(this.serverStatusTxt.getText());
+        controller.setClientEndpoint(this.clientEndpoint);
+        stage.setTitle("Client Application");
+        stage.setHeight(600);
+        stage.setWidth(800);
+        stage.setScene(scene);
 
+    }
+
+    @FXML
+    protected void switchStoreFileMenu() throws IOException {
+        this.setChatFileMenu(this.stage.getScene());
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-storeFile.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 800);
+        ClientGetStoreFileController controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        controller.setChatFileMenu(this.chatFileMenu);
+        controller.setAlias(this.alias);
+        controller.setServerStatusTxt(this.serverStatusTxt.getText());
+        controller.setClientEndpoint(this.clientEndpoint);
+        stage.setTitle("Client Application");
+        stage.setHeight(600);
+        stage.setWidth(800);
+        stage.setScene(scene);
+
+    }
+
+
+    @FXML
+    protected void switchSceneChatMenu() throws IOException {
+        this.setChatFileMenu(this.stage.getScene());
+        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-uni-broad-chat.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 700, 700);
+        ClientChatController controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        controller.setChatFileMenu(this.chatFileMenu);
+        controller.setAlias(this.alias);
+        controller.setServerStatusTxt(this.serverStatusTxt.getText());
+        controller.setClientEndpoint(this.clientEndpoint);
+        stage.setTitle("Client Application");
+        stage.setHeight(700);
+        stage.setWidth(700);
+        stage.setScene(scene);
+
+    }
     /* function code to send when interacting with client
      * 0 - register
      * 1 - getFile
@@ -113,23 +166,7 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
     }
 
 
-    @FXML
-    protected void onGetFile() throws IOException {
-        this.setChatFileMenu(this.stage.getScene());
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-getFile.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 800);
-        ClientGetFileController controller = fxmlLoader.getController();
-        controller.setStage(stage);
-        controller.setChatFileMenu(this.chatFileMenu);
-        controller.setAlias(this.alias);
-        controller.setServerStatusTxt(this.serverStatusTxt.getText());
-        controller.setClientEndpoint(this.clientEndpoint);
-        stage.setTitle("Client Application");
-        stage.setHeight(600);
-        stage.setWidth(800);
-        stage.setScene(scene);
 
-    }
 
 
 

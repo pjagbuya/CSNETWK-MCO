@@ -99,7 +99,7 @@ public class ClientConRegMenuController {
 
         }
 
-        else if(user.length()==0 || user.length()<3){
+        else if(user == null || user.length()==0 || user.length()<3){
 
             showError("ERROR: Please input a valid username/alias with at least 3 characters");
 
@@ -113,7 +113,7 @@ public class ClientConRegMenuController {
                 this.alias = user;
 
                 FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-chooseChatOrFile.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 800);
+                Scene scene = new Scene(fxmlLoader.<Parent>load(), 600, 800);
                 Client_ChatFile_MenuController controller = fxmlLoader.getController();
                 controller.setStage(this.stage);
                 controller.setServerStatusTxt("connected to SERVER: "+ server+":"+port);

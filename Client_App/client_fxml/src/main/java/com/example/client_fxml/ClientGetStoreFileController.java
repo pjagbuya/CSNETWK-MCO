@@ -16,7 +16,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientStoreFileController extends Client_ChatFile_MenuController{
+public class ClientGetStoreFileController extends Client_ChatFile_MenuController{
     private Stage stage;
 
     private Scene targetNextScene;
@@ -42,6 +42,36 @@ public class ClientStoreFileController extends Client_ChatFile_MenuController{
 
     @FXML
     private Button getFilesBtn;
+
+    @FXML
+    private Button storeFilesBtn;
+
+
+
+    /* function code to send when interacting with client
+     * 0 - register
+     * 1 - getFile
+     * 2 - storeFile
+     * 3 - getDirectory
+     * 4 - chat
+     *
+     * Sample usage: dosWriter.writeInt(0), 'This means im saying this request is a register request'
+     * */
+    @FXML
+    protected void onGetButtonClick() throws IOException  {
+
+        // process fileNameField.getText() and use that as request
+        // use the function showSuccess(String msg) to indicate the user succeeded in what he sent
+        // and indicate what he sent and what time arrived
+    }
+
+    @FXML
+    protected void onStoreButtonClick() throws IOException  {
+
+        // process fileNameField.getText() and use that as request
+        // use the function showSuccess(String msg) to indicate the user succeeded in what he sent
+        // and indicate what he sent and what time arrived
+    }
 
     @FXML
     protected void onDisconnectBtnGetFile() throws IOException  {
@@ -213,4 +243,7 @@ public class ClientStoreFileController extends Client_ChatFile_MenuController{
 
 
     }
+
+
+
 }

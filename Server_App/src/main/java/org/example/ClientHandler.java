@@ -16,6 +16,8 @@ class ClientHandler implements Runnable {
 
     private final Socket serverEndpoint;
     private ServerSocket serverSocket;
+
+    private String alias;
     private ArrayList<String> aliases;
 
     private DataOutputStream dosWriter;
@@ -91,6 +93,7 @@ class ClientHandler implements Runnable {
             }
             else{
                 dosWriter.writeInt(1);
+                this.alias = alias;
             }
 
         }catch (IOException e){

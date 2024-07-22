@@ -5,9 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.DataOutputStream;
@@ -16,7 +14,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientGetFileController extends Client_ChatFile_MenuController{
+public class ClientChatController extends Client_ChatFile_MenuController{
     private Stage stage;
 
     private Scene targetNextScene;
@@ -25,26 +23,16 @@ public class ClientGetFileController extends Client_ChatFile_MenuController{
 
     private Socket clientEndpoint;
 
+
     @FXML
     private Label serverStatusTxt;
 
     @FXML
-    private TextField fileNameField;
+    private Label serverAliasTxt;
+
 
     @FXML
-    private Button helpBtn;
-
-    @FXML
-    private Button backBtn;
-
-    @FXML
-    private Button disconnectBtn;
-
-    @FXML
-    private Button getFilesBtn;
-
-    @FXML
-    protected void onDisconnectBtnGetFile() throws IOException  {
+    protected void onDisconnectBtnChat() throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-conreg.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 800);
@@ -62,6 +50,7 @@ public class ClientGetFileController extends Client_ChatFile_MenuController{
             dosWriter.writeUTF(this.alias);
 
             serverStatusTxt.setText("SERVER DISCONNECTED AND IDLE...");
+
             this.clientEndpoint.close();
             showSuccessWithVal("SUCCESS: You disconnected from the server");
         }catch (Exception e){
@@ -96,6 +85,7 @@ public class ClientGetFileController extends Client_ChatFile_MenuController{
 
     public void setAlias(String alias) {
         this.alias = alias;
+        this.serverAliasTxt.setText("You are chatting in Server as \"" + this.alias + "\"");
     }
 
 
@@ -213,4 +203,6 @@ public class ClientGetFileController extends Client_ChatFile_MenuController{
 
 
     }
+
+
 }

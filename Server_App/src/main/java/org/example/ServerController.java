@@ -16,11 +16,14 @@ public class ServerController {
         this.stage = stage;
 
         this.stage.setOnCloseRequest(e->{
-            try {
-                socketHandler.close();
-            } catch (Exception err) {
-                err.printStackTrace();
+            if(socketHandler != null){
+                try {
+                    socketHandler.close();
+                } catch (Exception err) {
+                    err.printStackTrace();
+                }
             }
+
         });
 
 

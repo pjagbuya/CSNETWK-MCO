@@ -37,7 +37,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="getFilesBtn" mnemonicParsing="false" onAction="#onGetFile" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Get files" textFill="#f6fb7a">
+            <Button fx:id="getFilesBtn" mnemonicParsing="false" onAction="#switchGetFileMenu" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Get files" textFill="#f6fb7a">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -49,7 +49,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="storeFilesBtn" mnemonicParsing="false" onAction="#onRegisterBtnClick" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Store Files" textFill="#f6fb7a">
+            <Button fx:id="storeFilesBtn" mnemonicParsing="false" onAction="#switchStoreFileMenu" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Store Files" textFill="#f6fb7a">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -79,7 +79,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="chatBtn" mnemonicParsing="false" onAction="#onRegisterBtnClick" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Chat" textFill="#f6fb7a">
+            <Button fx:id="chatBtn" mnemonicParsing="false" onAction="#switchSceneChatMenu" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Chat" textFill="#f6fb7a">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
