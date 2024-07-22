@@ -9,11 +9,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.*;
 
-public class SocketHandler implements AutoCloseable{
+public class SocketHandler implements AutoCloseable, Runnable{
     final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
     private boolean isAvailable = true;
     public static ArrayList<String> aliases;
     public static ServerSocket serverSocket;
+
     private Socket socket;
     private String curDir;
     private File entireProjDir;
@@ -33,7 +34,7 @@ public class SocketHandler implements AutoCloseable{
         this.socketID = socketID;
         this.serverView = serverView;
         SocketHandler.aliases = new ArrayList<>();
-        this.isAvailable = false;
+        this.isAvailable = true;
         this.curDir = showDirectory();
         this.entireProjDir = new File(".");
         this.serverView.updateDirectory(showDirectory());
@@ -63,27 +64,27 @@ public class SocketHandler implements AutoCloseable{
      */
     public void startAccepting(){
         serverSocket = null; // Initialize server socket within the method
+        // Update UI on the main thread using EventQueue
+        String temp = "";
 
         try  {
             serverSocket = new ServerSocket(this.socketID);
-            serverSocket.setSoTimeout(0);
 
             System.out.println("Server listening in Socket "+ this.socketID + " and is now accepting... ");
             while (isAvailable) {
                 Socket clientSocket = serverSocket.accept();
+
+                System.out.println("A client has now connected");
                 if (clientSocket != null) {
                     // Process client request (potentially lengthy)
                     String message = processClientRequest(clientSocket); // Example processing
-
-                    // Update UI on the main thread using EventQueue
                     updateServerUI(this.socketID, message);
 
-                    // ... other processing on client connection
                 }
             }
 
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             if (e instanceof SocketTimeoutException) {
                 System.out.println("Server timeout");
             } else {
@@ -94,10 +95,14 @@ public class SocketHandler implements AutoCloseable{
 
 
     }
-    private String processClientRequest(Socket clientSocket) throws IOException {
+    private String processClientRequest(Socket clientSocket) throws IOException, InterruptedException {
+        ClientHandler clientHandler = new ClientHandler(clientSocket, this.serverSocket, aliases);
+        Thread t = new Thread(clientHandler);
+        t.start();
 
         return "Example message from client";
     }
+
 
     private String showDirectory(){
 
@@ -149,15 +154,9 @@ public class SocketHandler implements AutoCloseable{
 
     }
 
-    private void testTimer(){
-        for (int i = 1; i <=3000; i++){
-            System.out.println("Server listening in Socket "+ socketID + " and is now accepting... (running at "+i+"s )");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
 
-            }
-        }
+    @Override
+    public void run() {
+        startAccepting();
     }
 }

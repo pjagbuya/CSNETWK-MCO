@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="788.0" prefWidth="558.0" style="-fx-background-color: #17153B;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client_fxml.ClientPopUpMenuController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="700.0" prefWidth="100.0">
+         <children>
+            <Label fx:id="errorText" prefHeight="562.0" prefWidth="459.0" text="Label" textFill="#43ff26">
+               <font>
+                  <Font name="Courier New Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <Button fx:id="okCloseBtn" mnemonicParsing="false" onAction="#setToNextSceneTrigger" stylesheets="@css/btn_styles.css" text="OK" textFill="#ffc234">
+         <styleClass>
+            <String fx:value="popup-button" />
+         </styleClass>
+         <font>
+            <Font name="Courier New" size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <VBox.margin>
+            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+   <stylesheets>
+      <String fx:value="@css/btn_styles.css" />
+   </stylesheets>
+</VBox>

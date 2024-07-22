@@ -35,7 +35,7 @@ public class Main extends Application {
 
         Stage window = primaryStage;
         ServerView serverView = new ServerView(window);
-        ServerController serverController = new ServerController(serverView);
+        ServerController serverController = new ServerController(serverView, primaryStage);
 
         primaryStage.show();
     }

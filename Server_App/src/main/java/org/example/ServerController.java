@@ -1,15 +1,28 @@
 package org.example;
 
+import javafx.stage.Stage;
+
 public class ServerController {
+    private Stage stage;
     public static ServerView serverView;
     public static ServerModel serverModel;
     public static SocketHandler socketHandler;
 
     final static String SERVER_IP = "127.0.0.1";
 
-    public ServerController(ServerView serverView){
+    public ServerController(ServerView serverView, Stage stage){
 
         this.serverView = serverView;
+        this.stage = stage;
+
+        this.stage.setOnCloseRequest(e->{
+            try {
+                socketHandler.close();
+            } catch (Exception err) {
+                err.printStackTrace();
+            }
+        });
+
 
     }
 
@@ -37,7 +50,7 @@ public class ServerController {
             ServerController.serverView.setServerActive(sockNum);
 
             ServerController.serverModel = new ServerModel(SERVER_IP, sockNum);
-            Thread t = new Thread(() -> {socketHandler.startAccepting();});
+            Thread t = new Thread(socketHandler);
             t.start();
 
         }catch (NumberFormatException e){

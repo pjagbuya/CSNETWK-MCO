@@ -12,6 +12,8 @@ public class ClientApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-conreg.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 800);
+        ClientConRegMenuController controller = fxmlLoader.getController();
+        controller.setStage(stage);
         stage.setTitle("Client Application");
         stage.setHeight(600);
         stage.setWidth(800);

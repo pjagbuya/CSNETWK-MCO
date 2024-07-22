@@ -80,6 +80,8 @@ public class ServerView{
         Label inputLabel = new Label("Input name of socket to listen");
         Label ipLabel = new Label("Server IP: " + IP_LOCAL);
         Label serverDirLabel = new Label("Server Directory: ");
+
+        serverDirLabel.setFont(H2_FONT);
         this.serverStatTextFlow = new TextFlow();
         this.serverStatTextFlow.setMaxWidth(200);
         Text serverStatusText = new Text("Server "+ IP_LOCAL + " is inactive.");
@@ -115,7 +117,13 @@ public class ServerView{
 
         chatContent.setContent(chatContentTexts);
         dirContentSP.setContent(dirContentSPTexts);
-        this.dirContentSPTexts.setMinHeight(400);
+        dirContentSPTexts.maxWidth(300);
+        serverStatusPaneWithDir.setMaxWidth(300);
+        serverStatusPaneWithDir.setPrefWidth(300);
+        serverStatusPaneWithDir.setPrefHeight(700);
+        dirContentSP.setPrefViewportWidth(300);
+        dirContentSP.setPrefViewportHeight(700);
+        this.dirContentSPTexts.setMinHeight(700);
 
 
 

@@ -69,7 +69,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="disconnectBtn" mnemonicParsing="false" styleClass="buttonConReg" stylesheets="@css/btn_styles.css" text="Disconnect" textFill="#f6fb7a">
+            <Button fx:id="disconnectBtn" mnemonicParsing="false" onAction="#onDisonnectButtonClick" styleClass="buttonConReg" stylesheets="@css/btn_styles.css" text="Disconnect" textFill="#f6fb7a">
                <styleClass>
                   <String fx:value="conreg-button" />
                </styleClass>

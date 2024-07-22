@@ -5,6 +5,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -13,6 +14,17 @@
    <children>
       <HBox alignment="TOP_RIGHT" prefHeight="50.0" prefWidth="200.0">
          <children>
+            <Button fx:id="helpBtn1" alignment="CENTER" mnemonicParsing="false" onAction="#setHelpBtn" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Back" textFill="#f6fb7a">
+               <font>
+                  <Font name="Courier New" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <HBox.margin>
+                  <Insets right="440.0" />
+               </HBox.margin>
+            </Button>
             <Button fx:id="helpBtn" mnemonicParsing="false" onAction="#setHelpBtn" styleClass="buttonConReg" stylesheets="@css/btn_styles.css" text="?" textFill="#f6fb7a">
                <styleClass>
                   <String fx:value="conreg-button" />
@@ -35,51 +47,28 @@
             </Label>
          </children>
       </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="getFilesBtn" mnemonicParsing="false" onAction="#onGetFile" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Get files" textFill="#f6fb7a">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+            <Label text="Type your file name and we will store it to &quot;server_files&quot; folder">
                <font>
-                  <Font name="Cambria Bold" size="18.0" />
+                  <Font name="Century Gothic" size="12.0" />
                </font>
-            </Button>
+            </Label>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="storeFilesBtn" mnemonicParsing="false" onAction="#onRegisterBtnClick" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Store Files" textFill="#f6fb7a">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
+            <TextField prefHeight="25.0" prefWidth="355.0">
                <font>
-                  <Font name="Cambria Bold" size="18.0" />
+                  <Font name="Courier New" size="17.0" />
                </font>
-            </Button>
+            </TextField>
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button fx:id="dirBtn" mnemonicParsing="false" onAction="#onGetDirectory" prefWidth="300.0" stylesheets="@css/btn_styles.css" text="Directory" textFill="#f6fb7a">
-               <styleClass>
-                  <String fx:value="conreg-button" />
-               </styleClass>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <font>
-                  <Font name="Cambria Bold" size="18.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Button fx:id="chatBtn" mnemonicParsing="false" onAction="#onRegisterBtnClick" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Chat" textFill="#f6fb7a">
+            <Button fx:id="getFilesBtn" mnemonicParsing="false" onAction="#onRegisterBtnClick" prefWidth="300.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Store files" textFill="#f6fb7a">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
