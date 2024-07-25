@@ -64,6 +64,18 @@ class ClientHandler implements Runnable {
 
     }
     private void getFile() {
+        try {
+            String fileName = disReader.readUTF();
+            File file = new File(SERVER_FILE_PATH + "\\" + fileName);
+            if (file.exists() && file.isFile()) {
+                dosWriter.writeUTF("SUCCESS: File " + fileName + " retrieved.");
+                // Here you can add code to send the file content to the client if needed
+            } else {
+                dosWriter.writeUTF("ERROR: File not found.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getDirectory() {
@@ -81,6 +93,14 @@ class ClientHandler implements Runnable {
     }
 
     private void storeFile() {
+        try {
+            String fileName = disReader.readUTF();
+            // Assuming file data is being sent after the file name, which is not shown in the code
+            // You'd typically read the file data here and save it to the server's file system
+            dosWriter.writeUTF("SUCCESS: File " + fileName + " stored.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void register() {

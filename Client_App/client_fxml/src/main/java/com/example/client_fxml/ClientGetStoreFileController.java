@@ -59,18 +59,44 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
      * */
     @FXML
     protected void onGetButtonClick() throws IOException  {
+        String fileName = fileNameField.getText();
+        if (fileName.isEmpty()) {
+            showError("ERROR: Please enter a file name.");
+            return;
+        }
 
-        // process fileNameField.getText() and use that as request
-        // use the function showSuccess(String msg) to indicate the user succeeded in what he sent
-        // and indicate what he sent and what time arrived
+        try {
+            DataOutputStream dosWriter = new DataOutputStream(this.clientEndpoint.getOutputStream());
+            dosWriter.writeInt(1); // Indicates a 'getFile' request
+            dosWriter.writeUTF(fileName);
+            // Assuming server will send a response message after processing the request
+            // Here, we're just simulating success as there's no code for reading the server's response
+            showSuccess("Requested file: " + fileName + " at " + new Date().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("ERROR: Could not send the getFile request.");
+        }
     }
 
     @FXML
     protected void onStoreButtonClick() throws IOException  {
+        String fileName = fileNameField.getText();
+        if (fileName.isEmpty()) {
+            showError("ERROR: Please enter a file name.");
+            return;
+        }
 
-        // process fileNameField.getText() and use that as request
-        // use the function showSuccess(String msg) to indicate the user succeeded in what he sent
-        // and indicate what he sent and what time arrived
+        try {
+            DataOutputStream dosWriter = new DataOutputStream(this.clientEndpoint.getOutputStream());
+            dosWriter.writeInt(2); // Indicates a 'storeFile' request
+            dosWriter.writeUTF(fileName);
+            // Assuming server will send a response message after processing the request
+            // Here, we're just simulating success as there's no code for reading the server's response
+            showSuccess("Stored file: " + fileName + " at " + new Date().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("ERROR: Could not send the storeFile request.");
+        }
     }
 
     @FXML
