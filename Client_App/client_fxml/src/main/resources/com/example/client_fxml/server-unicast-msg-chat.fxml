@@ -9,11 +9,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="674.0" style="-fx-background-color: #B4E380; -fx-border-color: #2E236C; -fx-border-width: 10px;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client_fxml.ClientChatController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="682.0" prefWidth="674.0" style="-fx-background-color: #B4E380; -fx-border-color: #2E236C; -fx-border-width: 10px;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client_fxml.ClientUnicastController">
    <children>
       <BorderPane prefHeight="50.0" prefWidth="614.0">
          <right>
@@ -30,7 +31,7 @@
             </Button>
          </right>
          <left>
-            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#onBackBtn" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Back" textFill="#f6fb7a" BorderPane.alignment="CENTER">
+            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#onBackBtnUnicast" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Back" textFill="#f6fb7a" BorderPane.alignment="CENTER">
                <font>
                   <Font name="Courier New" size="15.0" />
                </font>
@@ -51,21 +52,24 @@
       </HBox>
       <VBox alignment="CENTER" prefHeight="521.0" prefWidth="614.0">
          <children>
-            <Label text="Anon's Chat with ___">
-               <font>
-                  <Font name="Courier New" size="20.0" />
-               </font>
-            </Label>
             <ScrollPane prefHeight="335.0" prefWidth="381.0">
                <content>
-                  <VBox fx:id="serverLogs" prefHeight="328.0" prefWidth="379.0" />
+                  <StackPane prefHeight="335.0" prefWidth="615.0">
+                     <children>
+                        <VBox fx:id="msgLogs" prefHeight="335.0" prefWidth="207.0">
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </StackPane>
                </content>
             </ScrollPane>
          </children>
       </VBox>
       <HBox alignment="CENTER" prefHeight="125.0" prefWidth="614.0">
          <children>
-            <TextFlow prefHeight="91.0" prefWidth="427.0">
+            <TextFlow maxWidth="530.0" prefHeight="44.0" prefWidth="524.0">
                <children>
                   <Label fx:id="serverAliasTxt" alignment="CENTER" contentDisplay="CENTER" text="You are chatting with ___ as Anon">
                      <font>
@@ -81,12 +85,12 @@
       </HBox>
       <HBox fx:id="chatField" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="375.0">
+            <TextField fx:id="chatText" prefHeight="25.0" prefWidth="375.0">
                <HBox.margin>
                   <Insets right="30.0" />
                </HBox.margin>
             </TextField>
-            <Button fx:id="sendChatBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Chat" textFill="#f6fb7a">
+            <Button fx:id="sendChatBtn" mnemonicParsing="false" onAction="#onSendChatBtn" prefHeight="40.0" prefWidth="80.0" styleClass="conreg-button" stylesheets="@css/btn_styles.css" text="Chat" textFill="#f6fb7a">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

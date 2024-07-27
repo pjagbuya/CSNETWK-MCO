@@ -63,7 +63,7 @@
       </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="355.0">
+            <TextField fx:id="fileNameField" prefHeight="25.0" prefWidth="355.0">
                <font>
                   <Font name="Courier New" size="17.0" />
                </font>

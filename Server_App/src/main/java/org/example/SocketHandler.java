@@ -1,5 +1,6 @@
 package org.example;
 
+import java.lang.reflect.Array;
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -12,7 +13,14 @@ import java.io.*;
 public class SocketHandler implements AutoCloseable, Runnable{
     final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
     private boolean isAvailable = true;
+
+    private AliasManager aliasManager;
     public static ArrayList<String> aliases;
+
+    public static HashMap<String, Client> userNetworkMaps;
+
+    public static ArrayList<ClientHandler> clientHandlers;
+
     public static ServerSocket serverSocket;
 
     private Socket socket;
@@ -24,6 +32,8 @@ public class SocketHandler implements AutoCloseable, Runnable{
     public void close() throws Exception {
         if (serverSocket != null && !serverSocket.isClosed()) {
             serverSocket.close();
+            userNetworkMaps.clear();
+            aliases.clear();
             System.out.println("Server socket on port " + socketID + " closed.");
         }
         isAvailable = false;
@@ -33,11 +43,14 @@ public class SocketHandler implements AutoCloseable, Runnable{
 
         this.socketID = socketID;
         this.serverView = serverView;
+        this.aliasManager = new AliasManager();
         SocketHandler.aliases = new ArrayList<>();
         this.isAvailable = true;
         this.curDir = showDirectory();
         this.entireProjDir = new File(".");
         this.serverView.updateDirectory(showDirectory());
+        this.userNetworkMaps = new HashMap<String, Client>();
+        this.clientHandlers = new ArrayList<ClientHandler>();
 
     }
 
@@ -71,8 +84,9 @@ public class SocketHandler implements AutoCloseable, Runnable{
             serverSocket = new ServerSocket(this.socketID);
 
             System.out.println("Server listening in Socket "+ this.socketID + " and is now accepting... ");
-            while (isAvailable) {
+            while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
+
 
                 System.out.println("A client has now connected");
                 if (clientSocket != null) {
@@ -95,10 +109,37 @@ public class SocketHandler implements AutoCloseable, Runnable{
 
 
     }
+
+    public static ArrayList<ClientHandler> getClientHandlers() {
+        return clientHandlers;
+    }
+
+    public void broadCastEveryone(String msg){
+        try {
+            for (Map.Entry<String, Client> entry : userNetworkMaps.entrySet()) {
+                String clientId = entry.getKey();
+                Client client = entry.getValue();
+                if(client.isOnBroadCastChat()){
+                    DataOutputStream dosWriter = client.getDosWriter();
+                    dosWriter.writeInt(999);
+                    dosWriter.writeUTF("SERVER");
+                    dosWriter.writeUTF(msg);
+                }
+
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
     private String processClientRequest(Socket clientSocket) throws IOException, InterruptedException {
-        ClientHandler clientHandler = new ClientHandler(clientSocket, this.serverSocket, aliases);
-        Thread t = new Thread(clientHandler);
-        t.start();
+        ClientHandler clientHandler = new ClientHandler(this.serverView,this, clientSocket, this.serverSocket, this.aliases, this.userNetworkMaps);
+        clientHandlers.add( clientHandler);
+        clientHandler.start();
+
+
 
         return "Example message from client";
     }

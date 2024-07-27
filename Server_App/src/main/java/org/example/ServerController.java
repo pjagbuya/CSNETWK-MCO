@@ -62,4 +62,8 @@ public class ServerController {
         }
 
     }
+
+    public static void msgServerUsers(String msg){
+        socketHandler.broadCastEveryone(msg);
+    }
 }

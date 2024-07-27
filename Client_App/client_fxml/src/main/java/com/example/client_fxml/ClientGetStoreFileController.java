@@ -10,10 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClientGetStoreFileController extends Client_ChatFile_MenuController{
@@ -22,6 +24,9 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
     private Scene targetNextScene;
     private Scene chatFileMenu;
     private String alias;
+    private DataInputStream disReader;
+
+    private DataOutputStream dosWriter;
 
     private Socket clientEndpoint;
 
@@ -46,8 +51,25 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
     @FXML
     private Button storeFilesBtn;
 
+    private final String CLIENT_FILES_URL = "./src/main/java/com/example/client_fxml/client_files/";
+    public void setDisReader(DataInputStream disReader) {
+        this.disReader = disReader;
+    }
+
+    public void setDosWriter(DataOutputStream dosWriter) {
+        this.dosWriter = dosWriter;
+    }
 
 
+    private String appendTxtExtension(String filename) {
+        int lastDotIndex = filename.lastIndexOf('.');
+        if (lastDotIndex != -1 && lastDotIndex == filename.length() - 4) {
+
+            return filename;
+        } else {
+            return filename + ".txt";
+        }
+    }
     /* function code to send when interacting with client
      * 0 - register
      * 1 - getFile
@@ -60,6 +82,34 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
     @FXML
     protected void onGetButtonClick() throws IOException  {
 
+        String fileName = fileNameField.getText();
+        if (fileName.isEmpty()) {
+            showError("ERROR: Please enter a file name.");
+            return;
+        }else{
+            try {
+
+
+                this.dosWriter.writeInt(1); // Indicates a 'getFile' request
+                this.dosWriter.writeUTF(fileName);
+
+
+
+                FileOutputStream fos = new FileOutputStream(CLIENT_FILES_URL+appendTxtExtension(fileName));
+                int fileSize = disReader.readInt();
+                byte[] fileContent = new byte[fileSize];
+                disReader.readFully(fileContent);
+                fos.write(fileContent);
+
+                showSuccess("Requested file: " + fileName + " at " + new Date().toString());
+                fos.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                showError("ERROR: Could not send the getFile request.");
+            }
+        }
+
+
         // process fileNameField.getText() and use that as request
         // use the function showSuccess(String msg) to indicate the user succeeded in what he sent
         // and indicate what he sent and what time arrived
@@ -67,6 +117,29 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
 
     @FXML
     protected void onStoreButtonClick() throws IOException  {
+        String fileName = fileNameField.getText();
+        if (fileName.isEmpty()) {
+            showError("ERROR: Please enter a file name.");
+            return;
+        }else{
+            try {
+
+                dosWriter.writeInt(2); // Indicates a 'storeFile' request
+                dosWriter.writeUTF(fileName);
+                byte[] fileContent = Files.readAllBytes(Paths.get(CLIENT_FILES_URL+appendTxtExtension(fileName)));
+
+                dosWriter.writeInt(fileContent.length);
+                dosWriter.write(fileContent);
+
+                showSuccess("Stored file: " + fileName + " at " + new Date().toString());
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                showError("ERROR: Could not send the storeFile request.");
+            }
+        }
+
 
         // process fileNameField.getText() and use that as request
         // use the function showSuccess(String msg) to indicate the user succeeded in what he sent

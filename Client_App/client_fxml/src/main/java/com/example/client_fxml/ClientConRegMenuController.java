@@ -11,9 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +20,14 @@ public class ClientConRegMenuController {
     private Socket clientEndpoint;
 
     private Scene targetNextScene;
+
+    private DataInputStream disReader;
+
+    private DataOutputStream dosWriter;
+
+    private BufferedReader bisReader;
+
+    private BufferedWriter bosWriter;
 
     private Stage stage;
 
@@ -51,7 +57,7 @@ public class ClientConRegMenuController {
             if(this.alias == null || this.alias.length() ==0){
                 this.alias = "";
             }
-            DataOutputStream dosWriter = new DataOutputStream(this.clientEndpoint.getOutputStream());
+
             dosWriter.writeInt(-1);
             dosWriter.writeUTF(this.alias);
             this.clientEndpoint.close();
@@ -111,17 +117,20 @@ public class ClientConRegMenuController {
             flag = sendClientAlias(user);
             if (flag == 1){
                 this.alias = user;
-
+                this.bisReader = new BufferedReader(new InputStreamReader(this.clientEndpoint.getInputStream()));
+                this.bosWriter = new BufferedWriter(new OutputStreamWriter(this.clientEndpoint.getOutputStream()));
                 FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-chooseChatOrFile.fxml"));
                 Scene scene = new Scene(fxmlLoader.<Parent>load(), 600, 800);
                 Client_ChatFile_MenuController controller = fxmlLoader.getController();
                 controller.setStage(this.stage);
+                controller.setBisReader(this.bisReader);
+                controller.setBosWriter(this.bosWriter);
                 controller.setServerStatusTxt("connected to SERVER: "+ server+":"+port);
-                controller.setServerIP(server);
-                controller.setPort(port);
                 controller.setClientEndpoint(this.clientEndpoint);
                 controller.setAlias(this.alias);
                 controller.setChatFileMenu(scene);
+                controller.setDisReader(disReader);
+                controller.setDosWriter(dosWriter);
                 this.targetNextScene = scene;
                 Thread.sleep(100);
                 showSuccessWithVal("SUCCESS: You are now registered currently as \""+ user+"\"");
@@ -134,7 +143,7 @@ public class ClientConRegMenuController {
             else if(flag == -1){
                 showError("ERROR: You are not connected to a network yet. Please connect first");
             }
-            else{
+            else {
                 showError("ERROR: Alias is already taken");
             }
 
@@ -158,11 +167,11 @@ public class ClientConRegMenuController {
      * 3 - getDirectory
      * 4 - chat
      * */
-    private int sendClientAlias(String alias) throws IOException {
+    private int sendClientAlias(String alias){
 
         try {
-            DataOutputStream dosWriter = new DataOutputStream(this.clientEndpoint.getOutputStream());
-            DataInputStream disReader = new DataInputStream(this.clientEndpoint.getInputStream());
+            this.dosWriter = new DataOutputStream(this.clientEndpoint.getOutputStream());
+            this.disReader = new DataInputStream(this.clientEndpoint.getInputStream());
             int flag = 0;
 
             dosWriter.writeInt(0);  // Send code that this is a register request
@@ -176,9 +185,11 @@ public class ClientConRegMenuController {
 
             }else if (flag == 1){
                 System.out.println("Result was true");
+            }else{
+                System.out.println("Alias was taken");
             }
             return flag;
-        }catch (IOException e){
+        }catch (Exception e){
             return -1;
 
         }
@@ -194,8 +205,11 @@ public class ClientConRegMenuController {
         commandsBuilder.append("disconnect - disconnect you from the server\n\n");
         commandsBuilder.append("register - you will give it an alias that is not taken\n\n");
         commandsBuilder.append("directory - sends you a list of files to get from the server\n\n");
-        commandsBuilder.append("get - gets the file based on the file name you gave\n\n");
-        commandsBuilder.append("store - stores the file based on the file name you gave\n\n");
+        commandsBuilder.append("get files - gets the file based on the file name you gave\n\n");
+        commandsBuilder.append("store files - stores the file based on the file name you gave\n\n");
+        commandsBuilder.append("refresh - refreshes available users to unicast\n\n");
+        commandsBuilder.append("chat - gives you both unicast and broadcast\n\n");
+        commandsBuilder.append("back - sends you to the previous menu\n\n");
 
         String commands = commandsBuilder.toString();
 

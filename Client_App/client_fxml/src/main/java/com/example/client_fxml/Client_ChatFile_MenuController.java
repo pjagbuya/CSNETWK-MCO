@@ -1,5 +1,6 @@
 package com.example.client_fxml;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,19 +10,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Client_ChatFile_MenuController extends ClientConRegMenuController{
     private Stage stage;
-    private String serverIP;
-    private String port;
+
 
     private Scene targetNextScene;
+
+
+    private Scene chatServersScene;
+
+    private ClientChatController clientChatController;
+
+    private FXMLLoader clientChatFXMLLoader;
+
+    private Thread runningServerChat;
 
     private Scene chatFileMenu;
 
@@ -55,6 +62,30 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
     @FXML
     private Button backBtn;
 
+    private DataInputStream disReader;
+
+    private DataOutputStream dosWriter;
+
+    private BufferedReader bisReader;
+
+    private BufferedWriter bosWriter;
+
+    public void setBosWriter(BufferedWriter bosWriter) {
+        this.bosWriter = bosWriter;
+    }
+
+    public void setBisReader(BufferedReader bisReader) {
+        this.bisReader = bisReader;
+    }
+
+    public void setDisReader(DataInputStream disReader) {
+        this.disReader = disReader;
+    }
+
+    public void setDosWriter(DataOutputStream dosWriter) {
+        this.dosWriter = dosWriter;
+    }
+
     @FXML
     protected void onDisconnectBtn() throws IOException  {
 
@@ -68,7 +99,7 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
             if(this.alias == null || this.alias.length() ==0){
                 this.alias = "";
             }
-            DataOutputStream dosWriter = new DataOutputStream(this.clientEndpoint.getOutputStream());
+
             System.out.println("Client endpoint is now sending -1");
             dosWriter.writeInt(-1);
             dosWriter.writeUTF(this.alias);
@@ -96,6 +127,8 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
         controller.setAlias(this.alias);
         controller.setServerStatusTxt(this.serverStatusTxt.getText());
         controller.setClientEndpoint(this.clientEndpoint);
+        controller.setDisReader(this.disReader);
+        controller.setDosWriter(this.dosWriter);
         stage.setTitle("Client Application");
         stage.setHeight(600);
         stage.setWidth(800);
@@ -114,6 +147,8 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
         controller.setAlias(this.alias);
         controller.setServerStatusTxt(this.serverStatusTxt.getText());
         controller.setClientEndpoint(this.clientEndpoint);
+        controller.setDisReader(this.disReader);
+        controller.setDosWriter(this.dosWriter);
         stage.setTitle("Client Application");
         stage.setHeight(600);
         stage.setWidth(800);
@@ -124,21 +159,50 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
 
     @FXML
     protected void switchSceneChatMenu() throws IOException {
-        this.setChatFileMenu(this.stage.getScene());
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("server-uni-broad-chat.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 700);
-        ClientChatController controller = fxmlLoader.getController();
-        controller.setStage(stage);
-        controller.setChatFileMenu(this.chatFileMenu);
-        controller.setAlias(this.alias);
-        controller.setServerStatusTxt(this.serverStatusTxt.getText());
-        controller.setClientEndpoint(this.clientEndpoint);
+
+        System.out.println("Switch scene triggered");
+        if(this.chatFileMenu == null){
+            this.setChatFileMenu(this.stage.getScene());
+        }
+
+
+        if(clientChatFXMLLoader == null){
+            clientChatFXMLLoader = new FXMLLoader(ClientApplication.class.getResource("server-uni-broad-chat.fxml"));
+        }
+
+        if(this.chatServersScene == null){
+            this.chatServersScene = new Scene(clientChatFXMLLoader.load(), 700, 700);
+        }
+        if(this.clientChatController == null){
+            this.clientChatController = clientChatFXMLLoader.getController();
+        }
+        this.clientChatController.setDisReader(this.disReader);
+        this.clientChatController.setDosWriter(this.dosWriter);
+        this.clientChatController.setBisReader(this.bisReader);
+        this.clientChatController.setBosWriter(this.bosWriter);
+
+        this.clientChatController.setStage(stage);
+        this.clientChatController.setChatFileMenu(this.chatFileMenu);
+        this.clientChatController.setAlias(this.alias);
+        this.clientChatController.setServerStatusTxt(this.serverStatusTxt.getText());
+        this.clientChatController.setClientEndpoint(this.clientEndpoint);
+        this.clientChatController.setServerAliasDisplayTxt();
+        this.clientChatController.sendAliasesAvail();
+        this.clientChatController.displayNewUsersChatList();
+        this.clientChatController.activateResponseReader();
+
+
+
         stage.setTitle("Client Application");
         stage.setHeight(700);
         stage.setWidth(700);
-        stage.setScene(scene);
+
+        Platform.runLater(() -> {
+            stage.setScene(this.chatServersScene);
+        });
 
     }
+
     /* function code to send when interacting with client
      * 0 - register
      * 1 - getFile
@@ -149,8 +213,7 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
     @FXML
     protected void onGetDirectory() throws IOException {
         try{
-            DataOutputStream dosWriter = new DataOutputStream(clientEndpoint.getOutputStream());
-            DataInputStream disReader = new DataInputStream(clientEndpoint.getInputStream());
+
             dosWriter.writeInt(3);
 
 
@@ -181,12 +244,6 @@ public class Client_ChatFile_MenuController extends ClientConRegMenuController{
         this.clientEndpoint = clientEndpoint;
     }
 
-    public void setServerIP(String serverIP){
-        this.serverIP = serverIP;
-    }
-    public void setPort(String port){
-        this.serverIP = port;
-    }
 
 
     public void setStage(Stage stage) {

@@ -35,6 +35,8 @@ public class ServerView{
     private static final MenuButton BTN_HELP = new MenuButton("?");
 
     private static final MenuButton BTN_REF = new MenuButton("Refresh");
+
+    private static final MenuButton BTN_CHAT= new MenuButton("Broadcast");
     final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
 
     private final Font H1_FONT = new Font("Courier New", 32);
@@ -59,8 +61,10 @@ public class ServerView{
         this.startScene = new Scene(bgPane, WIDTH, HEIGHT);
         this.chatVB = new VBox();
         this.chatContent = new ScrollPane();
+        StackPane chatContentStackPane = new StackPane();
         this.serverStatusPane = new StackPane();
         this.dirContentSP = new ScrollPane();
+        StackPane dirContentStackPane = new StackPane();
         this.dirContentSPTexts = new VBox();
         this.chatContentTexts = new VBox();
 
@@ -73,7 +77,7 @@ public class ServerView{
 
 
         btnSection.setAlignment(Pos.BOTTOM_CENTER);
-        btnSection.getChildren().addAll(BTN_ADD, BTN_DEL, BTN_REF, BTN_HELP);
+        btnSection.getChildren().addAll(BTN_ADD, BTN_DEL, BTN_REF, BTN_CHAT, BTN_HELP);
 
 
         Label chatTitleLabel = new Label("Server Chat");
@@ -106,6 +110,7 @@ public class ServerView{
 
         this.chatVB.getChildren().addAll(chatTitleLabel, this.chatContent);
         this.chatVB.setAlignment(Pos.TOP_CENTER);
+        this.chatVB.setPrefHeight(700);
 
         this.serverStatusPane.getChildren().addAll(this.serverStatTextFlow);
         this.serverStatusPane.setMaxWidth(200);
@@ -115,12 +120,17 @@ public class ServerView{
         serverStatusPaneWithDir.getChildren().addAll(serverStatusPane, serverDirLabel, dirContentSP);
         serverStatusPaneWithDir.setAlignment(Pos.TOP_CENTER);
 
-        chatContent.setContent(chatContentTexts);
-        dirContentSP.setContent(dirContentSPTexts);
+        chatContentStackPane.getChildren().add(chatContentTexts);
+        chatContent.setContent(chatContentStackPane);
+        dirContentStackPane.getChildren().add(dirContentSPTexts);
+        dirContentSP.setContent(dirContentStackPane);
         dirContentSPTexts.maxWidth(300);
         serverStatusPaneWithDir.setMaxWidth(300);
         serverStatusPaneWithDir.setPrefWidth(300);
         serverStatusPaneWithDir.setPrefHeight(700);
+        chatContent.setPrefViewportHeight(700);
+        dirContentSP.setPrefViewportWidth(400);
+
         dirContentSP.setPrefViewportWidth(300);
         dirContentSP.setPrefViewportHeight(700);
         this.dirContentSPTexts.setMinHeight(700);
@@ -142,6 +152,7 @@ public class ServerView{
         BTN_ADD.setOnAction(e->{
             String numString = inputField.getText();
             ServerController.makeSocket(numString);
+            inputField.setText("");
         });
 
         BTN_DEL.setOnAction(e->{
@@ -158,6 +169,14 @@ public class ServerView{
                                   "'Close sockets' - close all current sockets \n" +
                                   "'Refresh' - refreshes the directory \n"     ;
             AlertBoxRep alertBoxRep = new AlertBoxRep("HELP Options",help_options);
+        });
+        BTN_CHAT.setOnAction(e->{
+            String msg = inputField.getText();
+            ServerController.msgServerUsers(msg);
+            addChatText("SERVER: "+ msg);
+            inputField.setText("");
+
+
         });
 
 
@@ -180,7 +199,7 @@ public class ServerView{
         text.setFont(H2_FONT);
         this.dirContentSPTexts.getChildren().add(text);
     }
-    private String showDirectory(){
+    public String showDirectory(){
 
         URI directoryUri = Paths.get(SERVER_FILE_PATH).toUri();
         File directory = new File(directoryUri);
