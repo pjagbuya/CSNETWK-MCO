@@ -133,7 +133,7 @@ public class ClientConRegMenuController {
                 controller.setDosWriter(dosWriter);
                 this.targetNextScene = scene;
                 Thread.sleep(100);
-                showSuccessWithVal("SUCCESS: You are now registered currently as \""+ user+"\"");
+                showSuccessWithVal("SUCCESS: You are now registered currently as \""+ user+"\""+".\n Welcome!!!");
 
 
 
