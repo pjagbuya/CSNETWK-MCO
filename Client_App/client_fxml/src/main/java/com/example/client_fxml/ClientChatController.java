@@ -120,6 +120,7 @@ public class ClientChatController extends Client_ChatFile_MenuController{
                 }
             }catch (IOException e){
                 e.printStackTrace();
+                showError("ERROR: User was unable to join Unicast");
             }
 
 
@@ -145,6 +146,7 @@ public class ClientChatController extends Client_ChatFile_MenuController{
                             displayNewUsersChatList();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            showError("ERROR: unable to decrypt unicast");
                         }
                     });
 
@@ -156,6 +158,7 @@ public class ClientChatController extends Client_ChatFile_MenuController{
 
 
                     e.printStackTrace();
+                    showError("ERROR: unable to decrypt unicast");
                     break;
                 }
 
@@ -262,6 +265,7 @@ public class ClientChatController extends Client_ChatFile_MenuController{
                     switchSceneChatPerson(s);
                 } catch (IOException e) {
                     e.printStackTrace();
+
                 }
             });
 
@@ -289,6 +293,7 @@ public class ClientChatController extends Client_ChatFile_MenuController{
             }
         }catch (IOException e){
             e.printStackTrace();
+            showError("ERROR: Server failed to respond with user lists");
         }
         System.out.println("Finding users...");
         for(String s: avail_in_net){
@@ -396,32 +401,39 @@ public class ClientChatController extends Client_ChatFile_MenuController{
         }
     }
 
-    private void showError(String msg) throws IOException {
+    private void showError(String msg)  {
 
-        Stage popup = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("popup-error-config.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 300, 400);
-        popup.setTitle("Message from the System");
+        try{
+            Stage popup = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource("popup-error-config.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 300, 400);
+            popup.setTitle("Message from the System");
 
 
-        // Steps below describe how to get a specific node of a particuler scene
-        Parent root = scene.getRoot();
-        List<Node> allNodes = getAllNodes(root);
-        List<Label> labels = new ArrayList<>();
-        for (Node node : allNodes) {
-            if (node instanceof Label) {
-                Label label = (Label) node;
-                labels.add(label);
+            // Steps below describe how to get a specific node of a particuler scene
+            Parent root = scene.getRoot();
+            List<Node> allNodes = getAllNodes(root);
+            List<Label> labels = new ArrayList<>();
+            for (Node node : allNodes) {
+                if (node instanceof Label) {
+                    Label label = (Label) node;
+                    labels.add(label);
+                }
             }
+
+            labels.get(0).setText(msg);
+            labels.get(0).setWrapText(true);
+
+            popup.setHeight(300);
+            popup.setWidth(400);
+            popup.setScene(scene);
+            popup.show();
+        }catch (IOException e){
+            e.printStackTrace();
+
         }
 
-        labels.get(0).setText(msg);
-        labels.get(0).setWrapText(true);
 
-        popup.setHeight(300);
-        popup.setWidth(400);
-        popup.setScene(scene);
-        popup.show();
 
 
 

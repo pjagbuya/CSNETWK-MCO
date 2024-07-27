@@ -192,6 +192,7 @@ public class ClientUnicastController extends Client_ChatFile_MenuController{
             this.keepCheckingResponses = false;
         }catch (IOException e){
             e.printStackTrace();
+            showError("ERROR: Server disrupted the process of exiting Unicast chat");
         }
 
         this.stage.setScene(this.chatFileMenu);
@@ -259,6 +260,7 @@ public class ClientUnicastController extends Client_ChatFile_MenuController{
 
 
                         e.printStackTrace();
+                        showError("ERROR: Protocol request failed to unpack");
                         break;
                     }
 
@@ -379,6 +381,7 @@ public class ClientUnicastController extends Client_ChatFile_MenuController{
             popup.show();
         }catch (IOException e){
             e.printStackTrace();
+            showError("ERROR: FXML load failed");
         }
 
 

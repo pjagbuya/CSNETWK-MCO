@@ -105,7 +105,7 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
                 fos.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                showError("ERROR: Could not send the getFile request.");
+                showError("ERROR: Could not send the Get File request.");
             }
         }
 
@@ -136,7 +136,7 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
 
             } catch (Exception e) {
                 e.printStackTrace();
-                showError("ERROR: Could not send the storeFile request.");
+                showError("ERROR: Could not send the Store File request.");
             }
         }
 
