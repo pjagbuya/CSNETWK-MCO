@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,10 @@ public class ClientConRegMenuController {
         }else{
             try{
                 int nPort = Integer.parseInt(port);
-                this.clientEndpoint = new Socket(server, nPort);
+                this.clientEndpoint = new Socket();
+                this.clientEndpoint.connect(new InetSocketAddress(server, nPort), 5000);
+
+
                 serverStatusTxt.setText("You are now connected to "+ server+":"+port);
                 showHelp("SUCCESS: You are now connected to server");
             }catch (Exception e){
