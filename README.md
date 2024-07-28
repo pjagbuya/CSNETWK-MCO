@@ -1,6 +1,6 @@
 # CSNETWK MCO
 Commands
-
+Must be Windows OS
 To activate Client Application
 
 step 1 : goto client_fxml executable
