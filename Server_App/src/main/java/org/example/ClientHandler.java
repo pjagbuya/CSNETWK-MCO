@@ -249,7 +249,6 @@ class ClientHandler extends Thread {
 
             Platform.runLater(()->serverView.updateDirectory(this.serverView.showDirectory()));
 
-            dosWriter.writeUTF("SUCCESS: File " + fileName + " stored.");
         } catch (IOException e) {
             e.printStackTrace();
         }
