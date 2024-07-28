@@ -2,6 +2,9 @@
 Commands
 Must be Windows OS
 To activate Client Application
+JDK 17: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+JAVA_HOME to JDK 17
+
 
 step 1 : goto client_fxml executable
 
