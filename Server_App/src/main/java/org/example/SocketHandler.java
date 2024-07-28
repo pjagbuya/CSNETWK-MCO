@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.io.*;
 
 public class SocketHandler implements AutoCloseable, Runnable{
-    final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
+    final static String SERVER_FILE_PATH = ".\\org\\example\\server_files";
     private boolean isAvailable = true;
 
     private AliasManager aliasManager;

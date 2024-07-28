@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 class ClientHandler extends Thread {
-    final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
+    final static String SERVER_FILE_PATH = ".\\org\\example\\server_files";
     public static HashMap<String, String> serverChatlogs = new HashMap<String, String>();
 
     private boolean isInChatUni = false;

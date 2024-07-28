@@ -37,7 +37,7 @@ public class ServerView{
     private static final MenuButton BTN_REF = new MenuButton("Refresh");
 
     private static final MenuButton BTN_CHAT= new MenuButton("Broadcast");
-    final static String SERVER_FILE_PATH = ".\\src\\main\\java\\org\\example\\server_files";
+    final static String SERVER_FILE_PATH = ".\\org\\example\\server_files";
 
     private final Font H1_FONT = new Font("Courier New", 32);
     private final Font H2_FONT = new Font("Courier New", 24);
