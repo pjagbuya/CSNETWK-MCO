@@ -1,13 +1,5 @@
 # CSNETWK MCO
 Commands
-Pre Requisites:
--dependency for server app used: https://docs.gradle.org/5.4.1/release-notes.html
--Set gradle in environment variables both user and system
-
-Example:
-GRADLE - D:\Gradle3\gradle-5.4.1\bin
-
-
 
 To activate Client Application
 
