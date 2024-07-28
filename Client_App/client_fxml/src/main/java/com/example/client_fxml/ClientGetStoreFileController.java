@@ -101,10 +101,15 @@ public class ClientGetStoreFileController extends Client_ChatFile_MenuController
                 disReader.readFully(fileContent);
                 fos.write(fileContent);
 
-                showSuccess("Requested file: " + fileName + " at " + new Date().toString());
+                int flag = disReader.readInt();
+                String msg = disReader.readUTF();
+                if(flag==1)
+                    showSuccess("Requested file: " + fileName + " at " + new Date().toString());
+                else
+                    showError(msg);
                 fos.close();
             } catch (Exception e) {
-                e.printStackTrace();
+
                 showError("ERROR: Could not send the Get File request. Please try a different file name");
             }
         }

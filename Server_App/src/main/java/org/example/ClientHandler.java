@@ -121,12 +121,15 @@ class ClientHandler extends Thread {
                 System.out.println("File does exist");
                 dosWriter.writeInt(fileContent.length);
                 dosWriter.write(fileContent);
+                dosWriter.writeInt(1);
                 dosWriter.writeUTF("SUCCESS: File " + fileName + " retrieved.");
 
             } else {
+                dosWriter.writeInt(-1);
                 dosWriter.writeUTF("ERROR: File not found.");
             }
         } catch (IOException e) {
+
             e.printStackTrace();
         }
     }
