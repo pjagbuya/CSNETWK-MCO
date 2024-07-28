@@ -24,6 +24,7 @@ To activate Server Application
 
 Step1 : goto Sever App folder
 cd Server_App
+cd out\artifacts\Server_App_jar
 
 Step 2: Execute
-.\gradlew run
+java --module-path ".\javafx-sdk-17.0.12\lib" --add-modules javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.media,javafx.web --add-opens=javafx.graphics/javafx.scene=ALL-UNNAMED --add-exports javafx.base/com.sun.javafx.event=ALL-UNNAMED -jar Server_App.jar
