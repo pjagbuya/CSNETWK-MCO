@@ -1,4 +1,6 @@
-# CSNETWK MCO
+# CSNETWK MP
+Created by Agbuya and Celemen
+
 Commands
 Must be Windows OS
 To activate Client Application
